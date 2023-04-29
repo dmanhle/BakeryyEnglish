@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1074678018661",
+    "project_id": "bakeryenglish-addea",
+    "storage_bucket": "bakeryenglish-addea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074678018661:android:4b646ffbce27b743f38c8c",
+        "android_client_info": {
+          "package_name": "com.plcoding.bakeryenglish.BakeryEnglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074678018661-ou739kr7los50v14k2do5mnumjtclfot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACu6MWWadHt9glHOxeWGrc2Qoyr__vLfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1074678018661-ou739kr7los50v14k2do5mnumjtclfot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
