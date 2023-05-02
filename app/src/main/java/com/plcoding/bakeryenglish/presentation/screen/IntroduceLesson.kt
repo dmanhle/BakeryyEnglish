@@ -1,5 +1,6 @@
 package com.plcoding.bakeryenglish.presentation.screen
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,24 +11,31 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Pending
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.plcoding.bakeryenglish.R
 import com.plcoding.bakeryenglish.core.RouteScreen
+import com.plcoding.bakeryenglish.data.local.database.DictonaryDao
+import com.plcoding.bakeryenglish.presentation.event.Event
 import com.plcoding.bakeryenglish.presentation.viewmodel.IntroduceLessonViewModel
 
 @Composable
 fun IntroduceLesson(navController: NavController) {
     val introduceLessonViewModel:IntroduceLessonViewModel = hiltViewModel();
-    val lesson = introduceLessonViewModel.lesson.value;
+    val lesson = introduceLessonViewModel.lesson.value
+    var isExpanedDropdownmenu by remember { mutableStateOf(false) }
+
+
     Scaffold(
      floatingActionButton = {
          
@@ -45,9 +53,26 @@ fun IntroduceLesson(navController: NavController) {
                   }            
              },
              actions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { isExpanedDropdownmenu = !isExpanedDropdownmenu }) {
                     Icon(imageVector = Icons.Default.Settings, contentDescription = "" )
                 }
+                 DropdownMenu(expanded = isExpanedDropdownmenu, onDismissRequest = {isExpanedDropdownmenu = false}) {
+                     DropdownMenuItem(onClick = {
+                         introduceLessonViewModel.onEvent(Event.DeleteLesson(lesson.id!!))
+                         navController.navigate(RouteScreen.Home.route)
+                     }) {
+                         Row() {
+                             val image = painterResource(id = R.drawable.baseline_delete_24)
+                             Icon(painter = image, contentDescription = "")
+                             Text(
+                                 text = "Xóa học phần",
+                                 Modifier.size(20.dp),
+                                 fontWeight = FontWeight.Bold,
+                                 color = Color.Gray.copy(0.2f)
+                             )
+                         }
+                     }
+                 }
              }, backgroundColor = Color.White,
              elevation = 0.00001.dp
          ) 
@@ -134,6 +159,25 @@ fun IntroduceLesson(navController: NavController) {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+@Composable
+fun dropDownMenu(isExpand:Boolean,onDismissRequest: () ->Unit,onClickMenuItem: () -> Unit){
+    DropdownMenu(expanded = isExpand, onDismissRequest = {onDismissRequest}) {
+        DropdownMenuItem(onClick = {
+            onClickMenuItem
+        }) {
+            Row() {
+                val image = painterResource(id = R.drawable.baseline_delete_24)
+                Icon(painter = image, contentDescription = "")
+                Text(
+                    text = "Xóa học phần",
+                    Modifier.size(20.dp),
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Gray.copy(0.2f)
+                )
             }
         }
     }

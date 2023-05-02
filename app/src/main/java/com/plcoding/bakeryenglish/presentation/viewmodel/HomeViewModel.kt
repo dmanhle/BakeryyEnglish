@@ -27,17 +27,7 @@ class HomeViewModel @Inject constructor(
     init {
         getLessonDao()
     }
-    fun onEvent(event:Event){
-        when(event){
-            is Event.LoadLesson ->{
-                getLessonDao()
-            }
-            is Event.ClickToIntroduceLesson ->{
 
-            }
-            else -> {}
-        }
-    }
     fun getLessonDao(){
         viewModelScope.launch {
             dataRepository.getLesson().onEach {
@@ -52,7 +42,7 @@ class HomeViewModel @Inject constructor(
                         _loadIndicator.value = true
                     }
                     is Resource.Error ->{
-
+                      _loadIndicator.value = false
                     }
                 }
             }.launchIn(this)

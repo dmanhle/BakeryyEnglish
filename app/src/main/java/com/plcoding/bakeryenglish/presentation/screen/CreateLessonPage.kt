@@ -1,6 +1,7 @@
 package com.plcoding.bakeryenglish.presentation.screen
 
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -12,7 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -36,18 +40,17 @@ fun CreateLessonPage(navController: NavController) {
     val createLessonViewModel:CreateLessonViewModel = hiltViewModel();
     val textFieldNameLesson = createLessonViewModel.textFieldCreateLesson;
 //    listCompose chứa các các compose khi người dùng bấm thêm phần tử
-    val composableList = remember {
-        mutableStateListOf<@Composable () -> WordOfLesson>(
-            { ComponentInsertVocabulary()},{ComponentInsertVocabulary()}
-        )
-    }
+    val composableList = createLessonViewModel.listComposable
+//    list từ vựng người dùng nhập vào
+    val getListVocaUserInput = createLessonViewModel._listWordOfLesson.value
+
 //    Lấy context hiện tại
     val context = LocalContext.current;
 //   Lấy scrollState lấy vị trí scroll
     val scrollState = rememberScrollState();
 //    ImeState để phát hiện xem keyboard có được open;
-    val imeState = rememberImeState();
-
+    val imeState = rememberImeState()
+    // xử lí khi keyboard overlap content
     LaunchedEffect(key1 = imeState.value){
         if(imeState.value){
             scrollState.animateScrollTo(scrollState.value+200)
@@ -130,21 +133,55 @@ fun CreateLessonPage(navController: NavController) {
                     Text(text = "Tiêu đề", fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(40.dp))
 
-                    val listVocabulary = composableList.map{
-                        it()
-                    }
-//                    composableList.mapIndexed { index, function ->
-//                        function()
-//                    }
-//                    composableList.forEachIndexed { index, composable ->
-//                        composableList[index] = {
-//                            composable()
-//                        }
-//                        // do something with composable based on its index
-//                    }
-                    // mỗi lần tạo một từ mới sẽ tự động cập nhật dữ liệu vào listvocabulary
-                    createLessonViewModel.updateData(listVocabulary)
+                    val listVocabulary = composableList.mapIndexed{ index, insertComponent ->
+                        val state = rememberDismissState(
+                            confirmStateChange = {
+                                if (it == DismissValue.DismissedToStart) {
+                                    composableList.remove(insertComponent)
+                                    createLessonViewModel._listWordOfLesson.value.removeAt(index)
+                                }
+                                true
+                            }
+                        )
+                        SwipeToDismiss(
+                            state = state,
+                            background = {
+                                val color = when (state.dismissDirection) {
+                                    DismissDirection.StartToEnd -> Color.Transparent
+                                    DismissDirection.EndToStart -> Color.Red
+                                    null -> Color.Transparent
+                                }
 
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(color = color)
+                                        .padding(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Delete",
+                                        tint = Color.White,
+                                        modifier = Modifier.align(Alignment.CenterEnd)
+                                    )
+                                }
+                            },
+                            dismissContent = {
+                                val wordOfLesson = insertComponent()
+                                if (getListVocaUserInput.isEmpty()) {
+                                    getListVocaUserInput.add(wordOfLesson)
+                                } else if (index < getListVocaUserInput.size) {
+                                    getListVocaUserInput[index] = wordOfLesson
+                                } else {
+                                    getListVocaUserInput.add(wordOfLesson)
+                                }
+                            },
+                            directions = setOf(DismissDirection.EndToStart)
+                        )
+                        Spacer(modifier = Modifier
+                            .padding(top = 20.dp)
+                            .fillMaxWidth())
+                    }
                     Spacer(modifier = Modifier
                         .height(200.dp)
                         .fillMaxWidth())
@@ -153,6 +190,7 @@ fun CreateLessonPage(navController: NavController) {
         }
     }
 }
+
 
 
 

@@ -50,11 +50,6 @@ fun ComponentInsertVocabulary():WordOfLesson{
                 onValueChange = {
                     input1.value = it
                     wordOfLesson.word = it
-                    dictonaryViewModel.onEvent(Event.Search(it))
-                    if(list.isNotEmpty()){
-                        listMeaning.value = list[0].toWord().description.defineSimple()
-                        Log.d("AAA",list[0].toWord().description.defineSimple().toString())
-                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,7 +93,6 @@ fun ComponentInsertVocabulary():WordOfLesson{
                 onValueChange = {
                     input2.value = it
                     wordOfLesson.meaning = it
-                    dictonaryViewModel.getWordApi(it);
                 },
                 modifier = Modifier
                     .fillMaxWidth()

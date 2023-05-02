@@ -15,4 +15,6 @@ sealed class Event {
    // Handle LearningLesson
    class RandomOptionOfAnswer(val indexAnswer:Int):Event()
 
+   // Handle IntroduceLesson
+   class DeleteLesson(val id:Int) : Event()
 }

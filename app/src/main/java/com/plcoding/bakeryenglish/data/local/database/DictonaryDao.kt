@@ -21,6 +21,8 @@ interface DictonaryDao {
     @Query("Select * from lesson where id = :ids " )
     suspend fun getLessonByID(ids:Int):Lesson
 
+    @Query("Delete from lesson where id = :ids")
+    suspend fun deleteLesson(ids:Int)
 //    @Query("SELECT * FROM vocabularylocal WHERE word like '%' || :word || '%'")
 //    suspend fun getListSuggestedWord(word: String):List<WordOfLesson>
 }

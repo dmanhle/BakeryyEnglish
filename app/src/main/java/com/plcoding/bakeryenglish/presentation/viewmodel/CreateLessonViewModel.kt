@@ -1,6 +1,9 @@
 package com.plcoding.bakeryenglish.presentation.viewmodel
 
+import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +11,7 @@ import com.plcoding.bakeryenglish.data.local.database.DictonaryDao
 import com.plcoding.bakeryenglish.domain.model.Lesson
 import com.plcoding.bakeryenglish.domain.model.WordOfLesson
 import com.plcoding.bakeryenglish.presentation.event.Event
+import com.plcoding.bakeryenglish.presentation.screen.components.ComponentInsertVocabulary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,9 +24,12 @@ class CreateLessonViewModel @Inject constructor(
    val textFieldCreateLesson: State<String> = _textFieldCreateLesson;
 
 
-   private var _listWordOfLesson = mutableStateOf(emptyList<WordOfLesson>());
+   var _listWordOfLesson = mutableStateOf(ArrayList<WordOfLesson>());
    var listWordOfLesson:State<List<WordOfLesson>> = _listWordOfLesson
 
+   var listComposable = mutableStateListOf<@Composable() () -> WordOfLesson>(
+      { ComponentInsertVocabulary() },{ ComponentInsertVocabulary()}
+   )
 
 
    fun onEvent(event: Event){
@@ -38,8 +45,5 @@ class CreateLessonViewModel @Inject constructor(
             }
          }
       }
-   }
-   fun updateData(list:List<WordOfLesson>){
-      _listWordOfLesson.value = list
    }
 }

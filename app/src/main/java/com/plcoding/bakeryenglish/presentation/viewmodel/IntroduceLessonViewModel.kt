@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.bakeryenglish.data.local.database.DictonaryDao
 import com.plcoding.bakeryenglish.domain.model.Lesson
+import com.plcoding.bakeryenglish.presentation.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,6 +27,15 @@ class IntroduceLessonViewModel @Inject constructor(
                     _lesson.value = dao.getLessonByID(it)
                 }
             }else{
+            }
+        }
+    }
+    fun onEvent(event: Event){
+        when(event){
+            is Event.DeleteLesson ->{
+                viewModelScope.launch {
+                    dao.deleteLesson(ids = event.id)
+                }
             }
         }
     }
