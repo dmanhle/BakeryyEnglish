@@ -33,8 +33,10 @@ import com.plcoding.bakeryenglish.presentation.viewmodel.IntroduceLessonViewMode
 fun IntroduceLesson(navController: NavController) {
     val introduceLessonViewModel:IntroduceLessonViewModel = hiltViewModel();
     val lesson = introduceLessonViewModel.lesson.value
-    var isExpanedDropdownmenu by remember { mutableStateOf(false) }
 
+    var isExpanedDropdownmenu by remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
      floatingActionButton = {
@@ -53,14 +55,15 @@ fun IntroduceLesson(navController: NavController) {
                   }            
              },
              actions = {
-                IconButton(onClick = { isExpanedDropdownmenu = !isExpanedDropdownmenu }) {
+                IconButton(onClick = { isExpanedDropdownmenu = !isExpanedDropdownmenu  }) {
                     Icon(imageVector = Icons.Default.Settings, contentDescription = "" )
                 }
-                 DropdownMenu(expanded = isExpanedDropdownmenu, onDismissRequest = {isExpanedDropdownmenu = false}) {
+                 DropdownMenu(expanded = isExpanedDropdownmenu, modifier = Modifier.wrapContentSize(), onDismissRequest = {isExpanedDropdownmenu = false}) {
                      DropdownMenuItem(onClick = {
                          introduceLessonViewModel.onEvent(Event.DeleteLesson(lesson.id!!))
-                         navController.navigate(RouteScreen.Home.route)
-                     }) {
+                         navController.popBackStack(RouteScreen.Home.route,false)
+                      }
+                     ) {
                          Row() {
                              val image = painterResource(id = R.drawable.baseline_delete_24)
                              Icon(painter = image, contentDescription = "")
@@ -72,11 +75,21 @@ fun IntroduceLesson(navController: NavController) {
                              )
                          }
                      }
+                     DropdownMenuItem(onClick = { navController.navigate(RouteScreen.CreateLesson.route+"?lessonID=${lesson.id}")}) {
+                         val image = painterResource(id = R.drawable.baseline_edit_24)
+                         Icon(painter = image, contentDescription = "")
+                         Text(
+                             text = "Sửa học phần",
+                             Modifier.size(20.dp),
+                             fontWeight = FontWeight.Bold,
+                             color = Color.Gray.copy(0.2f)
+                         )
+                     }
                  }
              }, backgroundColor = Color.White,
              elevation = 0.00001.dp
          ) 
-     }   
+     }
     ) {
         Column(Modifier.padding(it)) {
             Card(
@@ -164,11 +177,9 @@ fun IntroduceLesson(navController: NavController) {
     }
 }
 @Composable
-fun dropDownMenu(isExpand:Boolean,onDismissRequest: () ->Unit,onClickMenuItem: () -> Unit){
-    DropdownMenu(expanded = isExpand, onDismissRequest = {onDismissRequest}) {
-        DropdownMenuItem(onClick = {
-            onClickMenuItem
-        }) {
+fun DropDowMenuBox(onDismiss: () -> Unit, onClickDelete: () ->Unit, onEdit: () ->Unit,isExpand:Boolean) {
+    DropdownMenu(expanded = isExpand, modifier = Modifier.wrapContentSize(), onDismissRequest = {onDismiss}) {
+        DropdownMenuItem(onClick = { onClickDelete }) {
             Row() {
                 val image = painterResource(id = R.drawable.baseline_delete_24)
                 Icon(painter = image, contentDescription = "")
@@ -179,6 +190,16 @@ fun dropDownMenu(isExpand:Boolean,onDismissRequest: () ->Unit,onClickMenuItem: (
                     color = Color.Gray.copy(0.2f)
                 )
             }
+        }
+        DropdownMenuItem(onClick = {onEdit}) {
+            val image = painterResource(id = R.drawable.baseline_edit_24)
+            Icon(painter = image, contentDescription = "")
+            Text(
+                text = "Sửa học phần",
+                Modifier.size(20.dp),
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray.copy(0.2f)
+            )
         }
     }
 }

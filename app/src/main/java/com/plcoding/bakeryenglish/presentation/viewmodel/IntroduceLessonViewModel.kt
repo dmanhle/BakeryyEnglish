@@ -1,7 +1,6 @@
 package com.plcoding.bakeryenglish.presentation.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +18,9 @@ class IntroduceLessonViewModel @Inject constructor(
 ):ViewModel() {
     private var _lesson = mutableStateOf(Lesson(-1,"", emptyList()))
     val lesson:State<Lesson> = _lesson;
+
+    var isExpanedDropdownmenu  = mutableStateOf(true)
+
 
     init {
         savedStateHandle.get<Int>("lessonID")?.let {

@@ -30,6 +30,7 @@ import com.plcoding.bakeryenglish.presentation.event.Event
 import com.plcoding.bakeryenglish.presentation.screen.components.ComponentInsertVocabulary
 import com.plcoding.bakeryenglish.presentation.viewmodel.CreateLessonViewModel
 import com.google.accompanist.insets.*
+import com.plcoding.bakeryenglish.domain.model.Lesson
 import rememberImeState
 
 
@@ -52,7 +53,8 @@ fun CreateLessonPage(navController: NavController) {
     val imeState = rememberImeState()
     // xử lí khi keyboard overlap content
     LaunchedEffect(key1 = imeState.value){
-        if(imeState.value){
+
+        if(imeState.value && scrollState.value > 50){
             scrollState.animateScrollTo(scrollState.value+200)
         }else{
             scrollState.animateScrollTo(scrollState.value-100)
@@ -95,8 +97,15 @@ fun CreateLessonPage(navController: NavController) {
                             ){
                                 Toast.makeText(context,"Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show()
                             }else{
-                                createLessonViewModel.onEvent(Event.SaveVocabularyLesson())
-                                navController.navigate(RouteScreen.Home.route)
+                                val myID = createLessonViewModel.isControlEdit
+                                if(myID == -1){
+                                    createLessonViewModel.onEvent(Event.SaveVocabularyLesson())
+                                    navController.navigate(RouteScreen.Home.route)
+                                }else{
+                                    val lesson =Lesson(myID,textFieldNameLesson.value,getListVocaUserInput)
+                                    createLessonViewModel.onEvent(Event.EditVocabularyLesson(lesson))
+                                    navController.navigate(RouteScreen.Home.route)
+                                }
                             }
                         }) {
                             Icon(imageVector = Icons.Default.Check, contentDescription = "description")
@@ -133,7 +142,7 @@ fun CreateLessonPage(navController: NavController) {
                     Text(text = "Tiêu đề", fontWeight = FontWeight.Bold)
                     Spacer(modifier = Modifier.height(40.dp))
 
-                    val listVocabulary = composableList.mapIndexed{ index, insertComponent ->
+                    composableList.mapIndexed{ index, insertComponent ->
                         val state = rememberDismissState(
                             confirmStateChange = {
                                 if (it == DismissValue.DismissedToStart) {

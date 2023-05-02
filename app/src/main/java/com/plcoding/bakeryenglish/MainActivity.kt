@@ -102,7 +102,15 @@ class MainActivity () : ComponentActivity() {
                         composable(RouteScreen.Search.route){
                             SearchPage()
                         }
-                        composable(RouteScreen.CreateLesson.route){
+                        composable(
+                           route =  RouteScreen.CreateLesson.route+"?lessonID={lessonID}",
+                           arguments = listOf(
+                               navArgument("lessonID") {
+                                   type = NavType.IntType
+                                   defaultValue = -3
+                               }
+                           )
+                        ){
                             CreateLessonPage(navController)
                         }
                         composable(RouteScreen.User.route){

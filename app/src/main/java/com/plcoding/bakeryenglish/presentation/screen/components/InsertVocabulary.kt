@@ -24,19 +24,14 @@ import com.plcoding.bakeryenglish.presentation.viewmodel.DictonaryViewModel
 
 
 @Composable
-fun ComponentInsertVocabulary():WordOfLesson{
-    val dictonaryViewModel:DictonaryViewModel = hiltViewModel()
-    val list = dictonaryViewModel.stateSearchTab.value.listVocabulary;
-    val input1 = remember { mutableStateOf("") }
-    val input2 = remember { mutableStateOf("") }
+fun ComponentInsertVocabulary(word:String = " ",meaning:String = " "):WordOfLesson{
 
+    val input1 = remember { mutableStateOf(word) }
+    val input2 = remember { mutableStateOf(meaning) }
 
     var wordOfLesson = remember {
-        WordOfLesson("","");
+        WordOfLesson(word,meaning);
     }
-
-    var listMeaning =  remember { mutableStateOf(ArrayList<String>()) }
-
     Card(
         elevation = 2.dp,
         backgroundColor = Color.White,
@@ -74,7 +69,7 @@ fun ComponentInsertVocabulary():WordOfLesson{
                     imeAction = ImeAction.Done,
                     keyboardType = KeyboardType.Text,
                     autoCorrect = true,
-                )
+                ),
             )
             Text(
                 text = "Thuật ngữ",
@@ -97,12 +92,7 @@ fun ComponentInsertVocabulary():WordOfLesson{
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .padding(start = 10.dp, end = 10.dp)
-                    .onFocusChanged { it ->
-                        if (it.isFocused) {
-                            listMeaning = listMeaning
-                        }
-                    },
+                    .padding(start = 10.dp, end = 10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     unfocusedIndicatorColor = Color.Gray,
@@ -124,9 +114,6 @@ fun ComponentInsertVocabulary():WordOfLesson{
                     autoCorrect = true
                 ),
             )
-            listMeaning.value.forEach{
-                Text(text = it.toString())
-            }
             Text(
                 text = "Định nghĩa",
                 fontSize = 13.sp,

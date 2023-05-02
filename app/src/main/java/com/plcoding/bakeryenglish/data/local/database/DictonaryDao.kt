@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.plcoding.bakeryenglish.data.local.model.VocabularyLocal
 import com.plcoding.bakeryenglish.domain.model.Lesson
 
@@ -20,6 +21,9 @@ interface DictonaryDao {
 
     @Query("Select * from lesson where id = :ids " )
     suspend fun getLessonByID(ids:Int):Lesson
+
+    @Update
+    suspend fun updateLesson(lesson: Lesson)
 
     @Query("Delete from lesson where id = :ids")
     suspend fun deleteLesson(ids:Int)
