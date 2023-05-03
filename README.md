@@ -9,7 +9,7 @@ This is an English dictionary application that combines learning vocabulary by a
 
 ## Feature
 
-- Look up English to Vietnamese dictionary
+- Look up English to Vietnamese dictionary offline wherever
 
 - Create English-Vietnamese vocabulary
 
@@ -23,7 +23,6 @@ This is an English dictionary application that combines learning vocabulary by a
     + MVVM Architecture
     + Jetpack Compose
     + Hilt-Android 
-
     + Room Database & Database External
     + Retrofit
   
