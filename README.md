@@ -34,8 +34,8 @@ This is an English dictionary application that combines learning vocabulary by a
 <table>
   <tr>
      <td>Home Page</td>
-     <td>Search Dictonary Pagen</td>
-     <td>Create Vocabulary Lession </td>
+     <td>Search Dictonary Page</td>
+     <td>Create Vocabulary Lesson </td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/127088340/235876090-330d2053-44ab-41a7-9719-fd8b1b751c1d.jpg"></td>
