@@ -67,7 +67,7 @@ This is an English dictionary application that combines learning vocabulary by a
   </tr>
   <tr>
     <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/2f96ab6e-c02d-4efc-a1e1-21e301260f5f"></td>
-    <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/7c8af3ba-0ba2-4768-af56-ebfe8e5bad13"></td>
+    <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/958e2cf9-531f-42e9-8e74-f6d08b9bcce9"></td>
     <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/db00d67d-cf4a-4294-9754-8e2a830d8def"></td>
   </tr>
  </table>
