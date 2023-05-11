@@ -57,3 +57,17 @@ This is an English dictionary application that combines learning vocabulary by a
     <td><img src="https://user-images.githubusercontent.com/127088340/235881221-fb1af0e9-a5ef-4a89-94b0-e01581674e2c.jpg"></td>
   </tr>
  </table>
+  <br/>
+  <br/>
+<table>
+  <tr>
+     <td>Learing FlashCard</td>
+     <td>Alert When Unsucessfully</td>
+     <td>Alert BottomSheet</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/2f96ab6e-c02d-4efc-a1e1-21e301260f5f"></td>
+    <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/7c8af3ba-0ba2-4768-af56-ebfe8e5bad13"></td>
+    <td><img src="https://github.com/dmanhle/BakeryyEnglish/assets/127088340/db00d67d-cf4a-4294-9754-8e2a830d8def"></td>
+  </tr>
+ </table>
