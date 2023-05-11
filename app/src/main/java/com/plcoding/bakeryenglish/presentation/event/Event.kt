@@ -1,6 +1,7 @@
 package com.plcoding.bakeryenglish.presentation.event
 
 import com.plcoding.bakeryenglish.domain.model.Lesson
+import com.plcoding.bakeryenglish.domain.model.WordOfLesson
 
 sealed class Event {
    // Process Search
@@ -17,7 +18,11 @@ sealed class Event {
 
    // Handle LearningLesson
    class RandomOptionOfAnswer(val indexAnswer:Int):Event()
-
+   class ReLearningFlashCard(val list:ArrayList<WordOfLesson>):Event()
    // Handle IntroduceLesson
    class DeleteLesson(val id:Int) : Event()
+
+   // Handle FlashCard Event
+
+   class SkipQuetions(val wordOfLesson: WordOfLesson):Event()
 }

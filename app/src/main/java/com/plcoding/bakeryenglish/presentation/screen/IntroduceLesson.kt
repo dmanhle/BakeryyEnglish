@@ -27,11 +27,13 @@ import com.plcoding.bakeryenglish.R
 import com.plcoding.bakeryenglish.core.RouteScreen
 import com.plcoding.bakeryenglish.data.local.database.DictonaryDao
 import com.plcoding.bakeryenglish.presentation.event.Event
+import com.plcoding.bakeryenglish.presentation.viewmodel.HomeViewModel
 import com.plcoding.bakeryenglish.presentation.viewmodel.IntroduceLessonViewModel
 
 @Composable
 fun IntroduceLesson(navController: NavController) {
     val introduceLessonViewModel:IntroduceLessonViewModel = hiltViewModel();
+    val homeViewModel:HomeViewModel = hiltViewModel()
     val lesson = introduceLessonViewModel.lesson.value
 
     var isExpanedDropdownmenu by remember {
@@ -61,7 +63,8 @@ fun IntroduceLesson(navController: NavController) {
                  DropdownMenu(expanded = isExpanedDropdownmenu, modifier = Modifier.wrapContentSize(), onDismissRequest = {isExpanedDropdownmenu = false}) {
                      DropdownMenuItem(onClick = {
                          introduceLessonViewModel.onEvent(Event.DeleteLesson(lesson.id!!))
-                         navController.popBackStack(RouteScreen.Home.route,false)
+                         navController.navigate(RouteScreen.Home.route)
+                         //navController.popBackStack()
                       }
                      ) {
                          Row() {
@@ -109,7 +112,7 @@ fun IntroduceLesson(navController: NavController) {
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(15.dp))
             Card(
                 elevation = 2.dp,
                 shape = RoundedCornerShape(2.dp),
@@ -132,6 +135,32 @@ fun IntroduceLesson(navController: NavController) {
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(text = "Thẻ ghi nhớ", fontSize = 20.sp)
                         Text(text = "Ôn lại các thuật ngữ và định nghĩa", fontSize = 14.sp)
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                }
+            }
+            Card(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(2.dp),
+                backgroundColor = Color.White,
+                modifier = Modifier.padding(15.dp)
+            ) {
+                Row(
+                    Modifier
+                        .clickable {
+                            navController.navigate(RouteScreen.FlashCardPage.route + "?lessonID=${lesson.id}")
+                        }
+                        .align(CenterHorizontally)
+                ) {
+                    Icon(imageVector = Icons.Default.Pending, contentDescription = "", modifier = Modifier
+                        .weight(0.2f)
+                        .align(Alignment.CenterVertically))
+                    Column(
+                        modifier = Modifier.weight(0.8f)
+                    ) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Flashcard", fontSize = 20.sp)
+                        Text(text = "Học bộ thẻ với các flashcard dễ nhớ", fontSize = 14.sp)
                         Spacer(modifier = Modifier.height(10.dp))
                     }
                 }

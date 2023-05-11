@@ -1,7 +1,11 @@
 package com.plcoding.bakeryenglish.domain.model
 
-data class WordOfLesson(
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
+
+class WordOfLesson(
     var word:String,
-    var meaning:String
-) {
+    var meaning: String
+): Serializable {
 }

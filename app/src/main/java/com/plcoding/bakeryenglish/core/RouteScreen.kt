@@ -15,4 +15,5 @@ sealed class RouteScreen(
     object IntroduceLesson:RouteScreen("IntroducLesoon",Icons.Default.Check)
     object LearningLesson:RouteScreen("LearingLesson",Icons.Default.Check)
     object SuccessfullyLearning:RouteScreen("SuccessfullyLearning",Icons.Default.Check)
+    object FlashCardPage:RouteScreen("FlashCardPage",Icons.Default.Check)
 }

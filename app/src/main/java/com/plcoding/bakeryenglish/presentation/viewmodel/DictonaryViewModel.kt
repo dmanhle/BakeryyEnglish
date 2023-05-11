@@ -50,7 +50,7 @@ class DictonaryViewModel @Inject constructor(
         }
     }
 
-    private fun getWord(word:String){
+     fun getWord(word:String){
        jobSearch?.cancel()
        jobSearch = viewModelScope.launch {
            delay(1000)

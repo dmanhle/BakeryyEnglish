@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.plcoding.bakeryenglish.core.RouteScreen
 import com.plcoding.bakeryenglish.presentation.screen.*
+import com.plcoding.bakeryenglish.presentation.screen.components.FlashCardPage
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.SuccesfullyLearing
 import com.plcoding.bakeryenglish.presentation.viewmodel.DictonaryViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -149,7 +150,27 @@ class MainActivity () : ComponentActivity() {
                         ) {
                             LearningLessonPage(navController = navController)
                         }
+                        composable(
+                            route = RouteScreen.FlashCardPage.route +
+                                    "?lessonID={lessonID}&list={list}",
+                            arguments = listOf(
+                                navArgument(
+                                    name = "lessonID"
+                                ) {
+                                    type = NavType.IntType
+                                    defaultValue = -1
+                                },navArgument(
+                                    name = "list"
+                                ) {
+                                    type = NavType.StringType
+                                    defaultValue = "null"
+                                }
+                            )
+                        ) {
+                            FlashCardPage(navController = navController)
+                        }
                     }
+
                 }
             }
         }

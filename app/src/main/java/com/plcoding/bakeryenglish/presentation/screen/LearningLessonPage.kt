@@ -32,9 +32,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun LearningLessonPage(navController: NavController) {
-    val pagerState = rememberPagerState( initialPage = 0)
+
     val learingLessonViewModel:LearingLessonViewModel = hiltViewModel()
     val lesson = learingLessonViewModel.lesson.value
+
+    val pagerState = learingLessonViewModel.pagerState.value
 
     val pageCurrent = remember { mutableStateOf(0) }
     var pagePrevious = remember { mutableStateOf(-1) }
@@ -125,9 +127,9 @@ fun LearningLessonPage(navController: NavController) {
                                 .fillMaxWidth())
                             Text(
                                 "Câu hỏi ${currentPage+1}: Nghĩa của từ ${lesson.listVocabularyLesson!![page].word} là ?",
-                                 modifier = Modifier.padding(15.dp),
-                                 fontWeight = FontWeight.W800,
-                                 fontSize = 18.sp
+                                modifier = Modifier.padding(15.dp),
+                                fontWeight = FontWeight.W800,
+                                fontSize = 18.sp
                             )
                             Card(modifier = Modifier
                                 .fillMaxWidth()
@@ -145,13 +147,13 @@ fun LearningLessonPage(navController: NavController) {
                                     }
                                 }
                             ) {
-                               Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                                   Text(
-                                       text = learingLessonViewModel.listRamdomOptionOfAnswer.value[0],
-                                       fontSize = 16.sp,
-                                       fontWeight = FontWeight.W500
-                                   )
-                               }
+                                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                                    Text(
+                                        text = learingLessonViewModel.listRamdomOptionOfAnswer.value[0],
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.W500
+                                    )
+                                }
                             }
                             Card(modifier = Modifier
                                 .fillMaxWidth()
@@ -217,6 +219,7 @@ fun LearningLessonPage(navController: NavController) {
                 coroutineScope.launch {
                     if(pagerState.currentPage < pagerState.pageCount-1){
                         pagerState.scrollToPage(pagerState.currentPage+1);
+
                     } else if(pagerState.currentPage == pagerState.pageCount-1){
                         navController.navigate(RouteScreen.SuccessfullyLearning.route)
                     }
@@ -296,7 +299,7 @@ fun CustomDialogIncorrect(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                Image(painter = painter, contentDescription = "")
+                Image(painter = painter, contentDescription = "", modifier = Modifier.size(20.dp))
                 Spacer(modifier = Modifier
                     .height(1.dp)
                     .fillMaxWidth()

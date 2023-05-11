@@ -7,29 +7,23 @@ import com.plcoding.bakeryenglish.domain.model.WordInfor
 import com.plcoding.bakeryenglish.domain.model.WordOfLesson
 
 class Converter {
-    @TypeConverter
-    fun fromVocabluaryJson(json: String): List<WordInfor> {
-        val listType = object : TypeToken<List<WordInfor>>() {}.type
-        return Gson().fromJson(json, listType)
-    }
-
-    @TypeConverter
-    fun toVocabularyJson(list: List<WordInfor>): String {
-        val gson = Gson()
-        return gson.toJson(list)
-    }
 //    @TypeConverter
-//    fun fromJson(json: String): ArrayList<String> {
-//        val listType = object : TypeToken<List<String>>() {}.type
+//    fun fromVocabluaryJson(json: String): List<WordInfor> {
+//        val listType = object : TypeToken<List<WordInfor>>() {}.type
 //        return Gson().fromJson(json, listType)
 //    }
 //
 //    @TypeConverter
-//    fun toJson(list: ArrayList<String>): String {
+//    fun toVocabularyJson(list: List<WordInfor>): String {
 //        val gson = Gson()
 //        return gson.toJson(list)
 //    }
-
+    companion object{
+       fun fromJson(json: String): List<WordOfLesson> {
+          val listType = object : TypeToken<List<WordOfLesson>>() {}.type
+          return Gson().fromJson(json, listType)
+       }
+    }
     @TypeConverter
     fun fromJson_WordOfLesson(json: String): List<WordOfLesson> {
         val listType = object : TypeToken<List<WordOfLesson>>() {}.type

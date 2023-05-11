@@ -28,6 +28,13 @@ fun ComponentInsertVocabulary(word:String = " ",meaning:String = " "):WordOfLess
 
     val input1 = remember { mutableStateOf(word) }
     val input2 = remember { mutableStateOf(meaning) }
+    val autoComplete = remember { mutableStateOf(ArrayList<String>()) }
+//    val dictonaryViewModel:DictonaryViewModel = hiltViewModel()
+//    val listVocabularyLocal = dictonaryViewModel.stateSearchTab.value.listVocabulary;
+//
+//    if(!listVocabularyLocal.isNullOrEmpty()) {
+//       autoComplete.value = listVocabularyLocal[0].toWord().description.defineSimple()
+//    }
 
     var wordOfLesson = remember {
         WordOfLesson(word,meaning);
@@ -43,6 +50,7 @@ fun ComponentInsertVocabulary(word:String = " ",meaning:String = " "):WordOfLess
             TextField(
                 value = input1.value,
                 onValueChange = {
+//                    dictonaryViewModel.getWord(it)
                     input1.value = it
                     wordOfLesson.word = it
                 },
@@ -121,9 +129,11 @@ fun ComponentInsertVocabulary(word:String = " ",meaning:String = " "):WordOfLess
                 modifier = Modifier.padding(start = 10.dp, top = 10.dp),
                 color = Color(0xFF008080)
             )
+//            Text(text = autoComplete.toString())
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
+
     Spacer(modifier = Modifier.height(20.dp))
     return wordOfLesson
 }

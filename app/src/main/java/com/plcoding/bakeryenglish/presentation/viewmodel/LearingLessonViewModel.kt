@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.plcoding.bakeryenglish.data.local.database.DictonaryDao
 import com.plcoding.bakeryenglish.domain.model.Lesson
 import com.plcoding.bakeryenglish.presentation.event.Event
@@ -26,14 +28,15 @@ class LearingLessonViewModel @Inject constructor(
 
     var showDiaLogSusscess = mutableStateOf(false)
 
+    @OptIn(ExperimentalPagerApi::class)
+    val pagerState = mutableStateOf(PagerState(0))
+
     init {
         savedStateHandle.get<Int>("lessonID_learning").let {
-            if (it != -1) {
+            if (it != -1 && it != null) {
                 viewModelScope.launch {
                     _lesson.value = dao.getLessonByID(it!!)
                 }
-            } else {
-                Log.d("AAA", "null nha")
             }
         }
     }
