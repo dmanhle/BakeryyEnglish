@@ -1,16 +1,8 @@
-package com.plcoding.bakeryenglish.presentation.screen.components
+package com.plcoding.bakeryenglish.presentation.screen
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,26 +10,28 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Undo
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.plcoding.bakeryenglish.presentation.swipelib.rememberSwipeableCardState
+import com.plcoding.bakeryenglish.presentation.swipelib.swipableCard
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.plcoding.bakeryenglish.domain.model.WordOfLesson
-import com.plcoding.bakeryenglish.presentation.screen.MyLoadingIndicator
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.AlertDialogDemo
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.onDialogCelebrate
+import com.plcoding.bakeryenglish.presentation.swipelib.Direction
 import com.plcoding.bakeryenglish.presentation.viewmodel.FlashCardViewModel
 import kotlinx.coroutines.launch
+
 
 
 @SuppressLint("UnrememberedMutableState", "SuspiciousIndentation")
@@ -166,124 +160,81 @@ fun FlashCardPage(navController: NavController) {
 // chia màn hình ra theo tỉ lệ 8 / 2
 @Composable
 fun TwoPartsScreen(wordOfLesson: WordOfLesson,onComplete: () -> Unit,onSkip: () -> Unit) {
+    val state = rememberSwipeableCardState()
+    var isShowMeaning = remember {
+        mutableStateOf(false)
+    }
     Column(modifier = Modifier.fillMaxSize(),
     ) {
         Box(
             modifier = Modifier
                 .weight(0.8f)
-                .fillMaxWidth()
                 .background(Color.White)
+                .fillMaxWidth()
+                .swipableCard(
+                    state = state,
+                    onSwiped = { direction ->
+                        println("The card was swiped to $direction")
+                    },
+                    onSwipeCancel = {
+                        println("The swiping was cancelled")
+                    },
+                    listOf(Direction.Up, Direction.Down),
+                )
+                .clickable {
+                    isShowMeaning.value = true;
+                }
         ) {
-            // firstview - hiển thị các thẻ
             Card(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(15.dp),
-                backgroundColor = Color.White,
-                modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 30.dp, bottom = 30.dp)
+               elevation = 4.dp,
+               shape = RoundedCornerShape(15.dp),
+               backgroundColor = Color.White,
+               modifier = Modifier
+                   .padding(start = 30.dp, end = 30.dp, top = 30.dp, bottom = 30.dp)
+                   .fillMaxSize()
             ) {
-                var isFrontVisible by remember { mutableStateOf(true) }
-                val rotationX by animateFloatAsState(if (isFrontVisible) 0f else 180f)
-                val alpha by animateFloatAsState(if (isFrontVisible) 1f else 0f)
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.White)
-                        .clickable {
-                            isFrontVisible = !isFrontVisible
-                        }
+                Column(
+                    modifier =  Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .alpha(alpha)
-                            .rotate(rotationX)
-                            .background(Color.White)
+                        modifier = Modifier.weight(0.1f),
+                        Center
                     ) {
                         Text(
-                            text = wordOfLesson.word,
-                            modifier = Modifier.align(Alignment.Center)
+                            text = wordOfLesson.word.toString(),
+                            modifier = Modifier
                         )
                     }
+                    Divider()
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .alpha(1 - alpha)
-                            .rotate(rotationX - 180)
-                            .background(Color.White)
+                        modifier = Modifier.weight(0.9f),
+                        Center
                     ) {
-                        Text(
-                            text = wordOfLesson.meaning,
-                            modifier = Modifier.align(Alignment.Center)
-                        )
+                        if(isShowMeaning.value){
+                            Text(
+                                text = wordOfLesson.word.toString(),
+                            )
+                        }
                     }
                 }
             }
-        }
-        Box(
-            modifier = Modifier
-                .weight(0.17f)
-                .fillMaxWidth()
-                .background(Color.White),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.padding(bottom = 20.dp)
-            ) {
-                CircleWithUncomplete {
-                    onSkip()
-                }
-                Spacer(modifier = Modifier.width(200.dp))
-                CircleWithCheck{
+            LaunchedEffect(state.swipedDirection){
+                if(state.swipedDirection!=null && state.swipedDirection == Direction.Right) {
                     onComplete()
+                    state.reset()
+                    println("The card was swiped to SSSS ${state.swipedDirection!!}")
+                }
+                if(state.swipedDirection!=null && state.swipedDirection == Direction.Left) {
+                    onSkip()
+                    state.reset()
+                    println("The card was swiped to SSSS ${state.swipedDirection!!}")
                 }
             }
         }
     }
 }
 
-@Composable
-fun CircleWithCheck(onComplete: () ->Unit) {
-    Box(
-        modifier = Modifier
-            .size(52.dp)
-            .background(Color.Gray.copy(0.1f), CircleShape)
-    ) {
-        IconButton(
-            onClick = {
-                onComplete()
-            },
-            modifier = Modifier.align(Alignment.Center)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = null,
-                tint = Color.Black
-            )
-        }
-    }
-}
-@Composable
-fun CircleWithUncomplete(onSkip: () ->Unit) {
-    Box(
-        modifier = Modifier
-            .size(52.dp)
-            .background(Color.Gray.copy(0.1f), CircleShape)
-    ) {
-        IconButton(
-            onClick = {
-                onSkip()
-            },
-            modifier = Modifier.align(Alignment.Center)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Undo,
-                contentDescription = null,
-                tint = Color.Black
-            )
-        }
-    }
-}
 
 

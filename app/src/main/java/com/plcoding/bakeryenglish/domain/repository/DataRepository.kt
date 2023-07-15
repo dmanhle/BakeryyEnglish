@@ -15,4 +15,5 @@ interface DataRepository {
      suspend fun getLesson():Flow<Resource<List<Lesson>>>
 
      suspend fun updateLesson(lesson: Lesson)
+
 }

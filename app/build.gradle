@@ -98,7 +98,6 @@ dependencies {
     implementation "androidx.room:room-ktx:2.3.0"
     implementation 'org.jsoup:jsoup:1.14.3'
 
-
     implementation "com.google.accompanist:accompanist-pager:0.20.2"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.20.2"
     implementation "com.google.accompanist:accompanist-insets:0.22.0-rc"

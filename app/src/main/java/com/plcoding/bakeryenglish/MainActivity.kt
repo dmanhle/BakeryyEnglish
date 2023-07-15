@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -23,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.plcoding.bakeryenglish.core.RouteScreen
 import com.plcoding.bakeryenglish.presentation.screen.*
-import com.plcoding.bakeryenglish.presentation.screen.components.FlashCardPage
+import com.plcoding.bakeryenglish.presentation.screen.FlashCardPage
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.SuccesfullyLearing
 import com.plcoding.bakeryenglish.presentation.viewmodel.DictonaryViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,44 +51,39 @@ class MainActivity () : ComponentActivity() {
             Scaffold(
                 bottomBar = {
                     BottomNavigation(
-                        modifier = Modifier.heightIn(50.dp),
                         backgroundColor = Color.White,
                         elevation = 3.dp,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         val navBackStackEntry by navController.currentBackStackEntryAsState()
                         val currentDestination = navBackStackEntry?.destination
                         list.forEach { item->
-                          BottomNavigationItem(
-                              selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
-                              onClick = {
-                                  navController.navigate(item.route) {
-                                      // Pop up to the start destination of the graph to
-                                      // avoid building up a large stack of destinations
-                                      // on the back stack as users select items
-                                      popUpTo(navController.graph.findStartDestination().id) {
-                                          saveState = true
-                                      }
-                                      // Avoid multiple copies of the same destination when
-                                      // reselecting the same item
-                                      launchSingleTop = true
-                                      // Restore state when reselecting a previously selected item
-                                      restoreState = true
-                                  }
-                              },
-                              label = {""},
-                              icon = {
-                                  Icon(
-                                  imageVector = item.imageVector,
-                                  contentDescription = "",
-                                  modifier = Modifier
-                                      .size(27.dp)
-                                      .height(40.dp)
-                                  )
-                              },
-                              modifier = Modifier
-                                  .align(Alignment.CenterVertically)
-                                  .padding(5.dp)
-                          )
+                            BottomNavigationItem(
+                                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                                onClick = {
+                                    navController.navigate(item.route) {
+                                        // Pop up to the start destination of the graph to
+                                        // avoid building up a large stack of destinations
+                                        // on the back stack as users select items
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        // Avoid multiple copies of the same destination when
+                                        // reselecting the same item
+                                        launchSingleTop = true
+                                        // Restore state when reselecting a previously selected item
+                                        restoreState = true
+                                    }
+                                },
+                                label = {""},
+                                icon = {
+                                    Icon(
+                                        imageVector = item.imageVector,
+                                        contentDescription = "",
+                                    )
+                                },
+                                modifier = Modifier.fillMaxHeight().weight(1f)
+                            )
                         }
                     }
                 }
@@ -170,7 +164,6 @@ class MainActivity () : ComponentActivity() {
                             FlashCardPage(navController = navController)
                         }
                     }
-
                 }
             }
         }
