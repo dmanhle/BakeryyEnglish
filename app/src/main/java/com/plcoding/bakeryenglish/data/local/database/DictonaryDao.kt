@@ -11,22 +11,22 @@ import com.plcoding.bakeryenglish.domain.model.Lesson
 @Dao
 interface DictonaryDao {
     @Query("SELECT * FROM vocabularylocal WHERE word IN (:word)")
-    suspend fun loadWordInfor(word: String): List<VocabularyLocal>
+    fun loadWordInfor(word: String): List<VocabularyLocal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLesson(lesson: Lesson)
+    fun insertLesson(lesson: Lesson): Long
 
     @Query("Select * from lesson")
-    suspend fun getAllLesson():List<Lesson>;
+    fun getAllLesson():List<Lesson>;
 
     @Query("Select * from lesson where id = :ids " )
-    suspend fun getLessonByID(ids:Int):Lesson
+    fun getLessonByID(ids:Int):Lesson
 
     @Update
-    suspend fun updateLesson(lesson: Lesson)
+    fun updateLesson(lesson: Lesson): Int
 
     @Query("Delete from lesson where id = :ids")
-    suspend fun deleteLesson(ids:Int)
+    fun deleteLesson(ids: Int): Int
 //    @Query("SELECT * FROM vocabularylocal WHERE word like '%' || :word || '%'")
-//    suspend fun getListSuggestedWord(word: String):List<WordOfLesson>
+//    fun getListSuggestedWord(word: String):List<WordOfLesson>
 }

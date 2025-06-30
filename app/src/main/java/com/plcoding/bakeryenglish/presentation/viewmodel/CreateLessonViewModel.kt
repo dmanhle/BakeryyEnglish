@@ -68,6 +68,7 @@ class CreateLessonViewModel @Inject constructor(
                dictonaryDao.updateLesson(event.lesson)
             }
          }
+         else -> {}
       }
    }
 }

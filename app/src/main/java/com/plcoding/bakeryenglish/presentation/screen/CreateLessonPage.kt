@@ -117,14 +117,14 @@ fun CreateLessonPage(navController: NavController) {
             modifier = Modifier
                 .fillMaxHeight()
                 .background(Color.Gray.copy(0.05f))
-                .systemBarsPadding()
-        ){
+                .systemBarsPadding(),
+        ){ padding ->
             Box(modifier = Modifier
                 .background(Color.Gray.copy(0.05f))
                 .padding(10.dp)
-                .verticalScroll(scrollState)
+                .verticalScroll(scrollState),
             ){
-                Column(Modifier.imePadding()) {
+                Column() {
                     TextField(
                         value = textFieldNameLesson.value.toString(),
                         onValueChange ={

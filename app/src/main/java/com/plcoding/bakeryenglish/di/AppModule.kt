@@ -31,7 +31,7 @@ object AppModule {
         return Room.databaseBuilder(
             app,
             AppDatabase::class.java, "dictonary"
-        ).createFromAsset("database/dictonary.db").build()
+        ).createFromAsset("database/dictonary.db").allowMainThreadQueries().build()
     }
     @Provides
     @Singleton

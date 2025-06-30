@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.plcoding.bakeryenglish.presentation.swipelib.rememberSwipeableCardState
-import com.plcoding.bakeryenglish.presentation.swipelib.swipableCard
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -29,6 +28,7 @@ import com.plcoding.bakeryenglish.domain.model.WordOfLesson
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.AlertDialogDemo
 import com.plcoding.bakeryenglish.presentation.screen.components.dialog.onDialogCelebrate
 import com.plcoding.bakeryenglish.presentation.swipelib.Direction
+import com.plcoding.bakeryenglish.presentation.swipelib.swipeableCard
 import com.plcoding.bakeryenglish.presentation.viewmodel.FlashCardViewModel
 import kotlinx.coroutines.launch
 
@@ -171,12 +171,12 @@ fun TwoPartsScreen(wordOfLesson: WordOfLesson,onComplete: () -> Unit,onSkip: () 
                 .weight(0.8f)
                 .background(Color.White)
                 .fillMaxWidth()
-                .swipableCard(
+                .swipeableCard(
                     state = state,
                     onSwiped = { direction ->
                         println("The card was swiped to $direction")
                     },
-                    onSwipeCancel = {
+                    onSwipeCancelled = {
                         println("The swiping was cancelled")
                     },
                     listOf(Direction.Up, Direction.Down),

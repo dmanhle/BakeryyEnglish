@@ -16,7 +16,7 @@ class DataRepositotyImpl(
     private val dao: DictonaryDao,
     private val dictonaryApi: DictonaryApi
 ) :DataRepository{
-    override suspend fun getVocabularyLocal(
+    override fun getVocabularyLocal(
         word: String
     ): Flow<Resource<List<VocabularyLocal>>> = flow {
         emit(Resource.Loading<List<VocabularyLocal>>("Loading....."));
@@ -24,7 +24,7 @@ class DataRepositotyImpl(
         emit(Resource.Success<List<VocabularyLocal>>(list))
     }
 
-    override suspend fun getVocabularyApi(word: String): Flow<Resource<List<WordInforDTO>>> = flow{
+    override fun getVocabularyApi(word: String): Flow<Resource<List<WordInforDTO>>> = flow{
             emit(Resource.Loading<List<WordInforDTO>>("Loading "))
             var list = emptyList<WordInforDTO>()
             try {
@@ -37,7 +37,7 @@ class DataRepositotyImpl(
             emit(Resource.Success(data = list))
         }
 
-    override suspend fun getLesson(): Flow<Resource<List<Lesson>>>  = flow {
+    override fun getLesson(): Flow<Resource<List<Lesson>>>  = flow {
         emit(Resource.Loading<List<Lesson>>("Loading..."))
         var list = emptyList<Lesson>()
         try {
@@ -50,7 +50,7 @@ class DataRepositotyImpl(
         emit(Resource.Success<List<Lesson>>(list))
     }
 
-    override suspend fun updateLesson(lesson: Lesson) {
+    override fun updateLesson(lesson: Lesson) {
         dao.updateLesson(lesson)
     }
 }

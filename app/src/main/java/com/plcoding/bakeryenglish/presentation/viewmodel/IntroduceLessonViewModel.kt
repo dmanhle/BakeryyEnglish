@@ -25,9 +25,7 @@ class IntroduceLessonViewModel @Inject constructor(
     init {
         savedStateHandle.get<Int>("lessonID")?.let {
             if(it != -1){
-                viewModelScope.launch {
-                    _lesson.value = dao.getLessonByID(it)
-                }
+                _lesson.value = dao.getLessonByID(it)
             }else{
             }
         }
@@ -35,10 +33,10 @@ class IntroduceLessonViewModel @Inject constructor(
     fun onEvent(event: Event){
         when(event){
             is Event.DeleteLesson ->{
-                viewModelScope.launch {
-                    dao.deleteLesson(ids = event.id)
-                }
+                dao.deleteLesson(ids = event.id)
             }
+
+            else -> {}
         }
     }
 }

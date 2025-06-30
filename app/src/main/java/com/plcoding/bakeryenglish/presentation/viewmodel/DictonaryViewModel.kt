@@ -47,6 +47,8 @@ class DictonaryViewModel @Inject constructor(
             is Event.SelectedTab ->{
                 _indexTab.value = event.index
             }
+
+            else -> {}
         }
     }
 

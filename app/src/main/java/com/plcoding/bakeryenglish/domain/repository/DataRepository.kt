@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
 
-     suspend fun getVocabularyLocal(word:String): Flow<Resource<List<VocabularyLocal>>>
+     fun getVocabularyLocal(word:String): Flow<Resource<List<VocabularyLocal>>>
 
-     suspend fun getVocabularyApi(word: String):Flow<Resource<List<WordInforDTO>>>
+     fun getVocabularyApi(word: String):Flow<Resource<List<WordInforDTO>>>
 
-     suspend fun getLesson():Flow<Resource<List<Lesson>>>
+     fun getLesson():Flow<Resource<List<Lesson>>>
 
-     suspend fun updateLesson(lesson: Lesson)
+     fun updateLesson(lesson: Lesson)
 
 }

@@ -39,9 +39,7 @@ class FlashCardViewModel @Inject constructor(
     init {
         savedStateHandle.get<Int>("lessonID").let {
             if(it != -1 && it != null){
-                viewModelScope.launch {
-                    _lesson.value = dictonaryDao.getLessonByID(it!!)
-                }
+                _lesson.value = dictonaryDao.getLessonByID(it!!)
             }else{
                 savedStateHandle.get<String>("list").let { data->
                    _lesson.value.listVocabularyLesson = Converter.fromJson(data.toString())

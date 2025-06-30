@@ -64,6 +64,8 @@ class LearingLessonViewModel @Inject constructor(
                 }
                 _listRamdomOptionOfAnswer.value.shuffle()
             }
+
+           else -> {}
         }
     }
 }
